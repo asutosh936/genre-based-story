@@ -1,1 +1,3 @@
 openapi
+flask
+flask-cors

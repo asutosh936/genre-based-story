@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .task-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .delete-btn {
+            margin-left: auto;
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <div class="task-form">
+            <input type="text" id="genre" placeholder="Enter the genre of the book">
+            <input type="text" id="api_key" placeholder="Enter the API key">
+            <button onclick="generateStory()">Generate Story</button>
+        </div>
+        <div id="paragraph">
+            
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001/api';
+
+        
+
+        async function generateStory() {
+            const genre_text = document.getElementById('genre');
+            const api_key_text = document.getElementById('api_key');
+
+            const genre = genre_text.value.trim();
+            const api_key = api_key_text.value.trim();
+            
+
+            const response = await fetch(`${API_URL}/generate-story`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ genre, api_key }),
+            });
+
+            const responseData = await response.json();
+            
+            document.getElementById('paragraph').innerHTML = `
+                <p>Here is the generated story:</p>
+                <p>${responseData.story}</p>
+            `;
+        }
+
+        
+    </script>
+</body>
+</html>
